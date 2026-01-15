@@ -9,6 +9,10 @@ nav_order: 1
 ---
 <!-- _pages/publications.md -->
 <div class="publications">
+  <div class="pub-header">
+    <div class="pub-source">Periodically updated from <a class="pub-source-link" href="https://scholar.google.com/citations?user={{ site.scholar_userid }}">google scholar</a>.</div>
+    <div class="pub-note">(†=equal contribution)</div>
+  </div>
 
 {%- for y in page.years %}
   <h2 class="year">{{y}}</h2>

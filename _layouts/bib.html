@@ -11,10 +11,10 @@
           {%- endif -%} -->
           <abbr class="badge">{{entry.short}}</abbr>
         {%- endif -%}
-        <!-- {%- if entry.short -%}
+        {%- if entry.award -%}
             <br/>
-            <div class="badge award " style="box-shadow: none;">{{entry.short}}</div>
-        {%- endif -%} -->
+            <div class="badge award" style="box-shadow: none;">{{entry.award}}</div>
+        {%- endif -%}
         </div>
 
         <!-- Entry bib key -->
@@ -33,6 +33,22 @@
                 {%- assign author_is_self = true -%}
               {%- endif -%}
             {%- endif -%}
+            {%- assign author_fullname = author.first | append: " " | append: author.last -%}
+            {%- assign author_display = author_fullname -%}
+            {%- if entry.equal -%}
+              {%- assign equal_list = entry.equal | split: ";" -%}
+              {%- for equal_author in equal_list -%}
+                {%- assign equal_parts = equal_author | split: "," -%}
+                {%- if equal_parts.size > 1 -%}
+                  {%- assign equal_last = equal_parts[0] | strip -%}
+                  {%- assign equal_first = equal_parts[1] | strip -%}
+                  {%- if equal_last == author.last and equal_first == author.first -%}
+                    {%- capture author_display -%}{{ author_fullname }}<sup>&dagger;</sup>{%- endcapture -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
             {%- assign coauthor_url = nil -%}
             {% assign coauthor_fullname = author.first | append: author.last %}
             {%- if site.data.coauthors[coauthor_fullname] -%}
@@ -46,28 +62,28 @@
             
             {%- if forloop.length == 1 -%}
               {%- if author_is_self %}
-                <em>{{author.first}} {{author.last}}</em>
-              {%- else -%}{{author.first}} {{author.last}}
+                <em>{{ author_display }}</em>
+              {%- else -%}{{ author_display }}
               {%- endif -%}
             {%- else -%}
               {%- unless forloop.last -%}
                 {% if author_is_self %}
-                  <em>{{author.first}} {{author.last}}</em>,&nbsp;
+                  <em>{{ author_display }}</em>,&nbsp;
                 {%- else -%}
                   {% if coauthor_url -%}
-                    <a href="{{coauthor_url}}">{{author.first}} {{author.last}}</a>,&nbsp;
+                    <a href="{{coauthor_url}}">{{ author_display }}</a>,&nbsp;
                   {%- else -%}
-                    {{author.first}} {{author.last}},&nbsp;
+                    {{ author_display }},&nbsp;
                   {%- endif -%}
                 {%- endif -%}
               {%- else -%}
                 {% if author_is_self -%}
-                  and <em>{{author.first}} {{author.last}}</em>
+                  and <em>{{ author_display }}</em>
                 {% else -%}
                   {%- if coauthor_url -%}
-                    and <a href="{{coauthor_url}}">{{author.first}} {{author.last}}</a>
+                    and <a href="{{coauthor_url}}">{{ author_display }}</a>
                   {% else -%}
-                    and {{author.first}} {{author.last}} 
+                    and {{ author_display }} 
                   {%- endif -%}
                 {%- endif -%}
               {%- endunless -%}
@@ -162,7 +178,7 @@
           {%- if entry.press %}
           <a href="{{ entry.press }}" class="btn btn-sm z-depth-0" role="button">Press</a>
         {%- endif %}
-        {%- if entry.bibtex_show %}
+        {%- if entry.bibtex_show and entry.bibtex_show != "false" %}
            <a class="bibtex btn btn-sm z-depth-0" role="button">Bib</a>
         {%- endif %}
           </div>
@@ -174,7 +190,7 @@
           </div>
           {%- endif -%}
 
-          {% if entry.bibtex_show -%}
+          {% if entry.bibtex_show and entry.bibtex_show != "false" -%}
           <!-- Hidden bibtex block -->
           <div class="bibtex hidden">
             {% highlight bibtex %}{{ entry.bibtex | hideCustomBibtex }}{% endhighlight %}
