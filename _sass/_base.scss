@@ -451,6 +451,25 @@ footer.sticky-bottom {
 
 .publications {
   margin-top: 2rem;
+  .pub-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  .pub-source-link {
+    color: var(--global-theme-color);
+  }
+  .pub-source {
+    font-size: 0.75rem;
+  }
+  .pub-note {
+    font-size: 0.75rem;
+    text-align: right;
+    color: var(--global-text-color);
+    margin-bottom: 0;
+  }
   h1 {
     color: var(--global-theme-color);
     font-size: 1rem;
@@ -463,6 +482,18 @@ footer.sticky-bottom {
     span {
       font-size: 1rem;
     }
+    .pub-note-inline {
+      font-size: 0.7rem;
+      font-weight: 400;
+      margin-left: auto;
+      text-align: right;
+    }
+  }
+  h2.selected-papers-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
   }
   h2.year {
     color: var(--global-divider-color);
@@ -487,6 +518,9 @@ footer.sticky-bottom {
           background-color: var(--global-theme-color);
           padding-left: 1rem;
           padding-right: 1rem;
+          width: 80%;
+          box-sizing: border-box;
+          text-align: center;
           a {
             color: white;
             &:hover {
@@ -494,9 +528,16 @@ footer.sticky-bottom {
             }
           }
         }
+        .badge {
+          display: inline-block;
+          width: 80%;
+          box-sizing: border-box;
+          text-align: center;
+        }
         .award {
           color: var(--global-theme-color) !important;
           border: 1px solid var(--global-theme-color);
+          background-color: transparent;
         }
       }
       .title {
