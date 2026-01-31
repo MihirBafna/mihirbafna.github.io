@@ -22,7 +22,7 @@ horizontal: false
 	<div class="direction-l" data-toggle="modal" data-target="#liquid">
 		<div class="flag-wrapper">
 			<span class="flag">Liquid AI</span>
-			<span class="time-wrapper"><span class="time">2024-present</span></span>
+			<span class="time-wrapper"><span class="time">2024 - present</span></span>
 		</div>
 		<div class="desc">
 			<b>Machine Learning Researcher</b> <br>
@@ -34,7 +34,7 @@ horizontal: false
 	<div class="direction-r" data-toggle="modal" data-target="#mitphd">
 		<div class="flag-wrapper">
 			<span class="flag">MIT</span>
-			<span class="time-wrapper"><span class="time">2024</span></span>
+			<span class="time-wrapper"><span class="time">2024 - present</span></span>
 		</div>
 		<div class="desc">
 			<b>PhD student</b> <br>

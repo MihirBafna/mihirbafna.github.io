@@ -367,12 +367,11 @@ body {
       text-align: center;
   }
   
-  .flag-wrapper {
+  /* .flag-wrapper {
       text-align: center;
   }
   
   .flag {
-    /* color: !important #{$grey-color-dark}; */
     background: var(--global-theme-color);
     z-index: 15;
   }
@@ -406,7 +405,7 @@ body {
       border-bottom-color: rgb(255,255,255);
       border-width: 8px;
       pointer-events: none;
-  }
+  } */
   
   .time-wrapper {
       display: block;
