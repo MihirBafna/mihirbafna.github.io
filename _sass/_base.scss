@@ -365,6 +365,21 @@ blockquote {
 }
 
 
+// Bio links: underline sweeps in from left to right on hover
+.about-bio a {
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1.5px;
+  transition: background-size 0.3s ease;
+  &:hover {
+    text-decoration: none;
+    background-size: 100% 1.5px;
+  }
+}
+
+
 // Footer
 footer.fixed-bottom {
   background-color: var(--global-footer-bg-trans);
