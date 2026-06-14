@@ -16,7 +16,7 @@ layout: default
   
           
 
-        <article>
+        <article class="about-article">
           <!-- {% if page.profile -%}
           <div class="profile float-left" style="border: 1px solid black;">
             {%- if page.profile.image %}
@@ -32,7 +32,7 @@ layout: default
             </div>
             {%- endif %}
           </div> -->
-          <div class="profile float-right" style="padding-left:50px; width:45%; height:100%;">
+          <div class="profile float-right about-figure">
               <div class="computer-container">
                 <div class="computer-monitor">
                 <!-- <div class="computer-monitor" onclick="window.open('/terminal/', '_self')"> -->
@@ -77,8 +77,7 @@ layout: default
                 <div class="computer-stand-bottom"></div>
               </div>
             </div>
-          </div>
-          <div class="clearfix" style=" width: 55%; padding-top:2vh;">
+          <div class="clearfix about-bio">
             {{ content }}
             {%- if page.social %}
             <!-- Social -->
@@ -95,11 +94,10 @@ layout: default
           {%- endif %}
           {% if page.selected_papers -%}
             <!-- Selected papers -->
-            <div style="margin-top: 9rem;">
+            <div class="selected-papers-section">
               {%- include selected_papers.html %}
             </div>
           {%- endif %}
         </article>
 
   </div>
-    </div>

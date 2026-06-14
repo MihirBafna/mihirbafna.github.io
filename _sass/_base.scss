@@ -295,6 +295,76 @@ blockquote {
 }
 
 
+// About / homepage layout (desktop defaults — previously inline styles)
+.about-figure {
+  padding-left: 50px;
+  width: 45%;
+  height: 100%;
+}
+.about-bio {
+  width: 55%;
+  padding-top: 2vh;
+}
+.selected-papers-section {
+  margin-top: 9rem;
+}
+
+// Stack the homepage into a single column on phones / small tablets
+@media (max-width: 767px) {
+  // Reorder so the bio + social icons come before the dna animation
+  .about-article {
+    display: flex;
+    flex-direction: column;
+  }
+  .about-article .about-bio {
+    order: 1;
+  }
+  .about-article .about-figure {
+    order: 2;
+  }
+  .about-article .selected-papers-section {
+    order: 3;
+  }
+  .about-figure {
+    float: none !important;
+    width: 100%;
+    height: auto;
+    margin-left: 0;
+    padding-left: 0;
+    display: flex;
+    justify-content: center;
+    margin-top: 2.5rem;
+    margin-bottom: 0;
+    .computer-container {
+      position: relative;
+    }
+    .computer-monitor {
+      margin: 0 auto;
+    }
+  }
+  .about-bio {
+    width: 100%;
+    padding-top: 0;
+  }
+  .social-links {
+    justify-content: center;
+  }
+  .selected-papers-section {
+    margin-top: 3rem;
+  }
+  // Venue badges collapse to small pills (not full-width bars) once the
+  // bootstrap columns stack on small screens
+  .publications ol.bibliography li div.abbr {
+    height: auto;
+    margin-bottom: 0.4rem;
+    abbr,
+    .badge {
+      width: auto;
+    }
+  }
+}
+
+
 // Footer
 footer.fixed-bottom {
   background-color: var(--global-footer-bg-trans);
