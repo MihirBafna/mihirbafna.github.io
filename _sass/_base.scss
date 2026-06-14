@@ -270,6 +270,30 @@ blockquote {
   }
 }
 
+// Minimal Feather-style icon row rendered under the about paragraph
+.social-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+  margin-top: 1rem;
+  a {
+    display: inline-flex;
+    color: var(--global-text-color);
+    opacity: 0.75;
+    transition: opacity 0.2s ease-in-out, color 0.2s ease-in-out;
+    &:hover {
+      opacity: 1;
+      color: var(--global-theme-color);
+    }
+    svg {
+      width: 20px;
+      height: 20px;
+      display: block;
+    }
+  }
+}
+
 
 // Footer
 footer.fixed-bottom {

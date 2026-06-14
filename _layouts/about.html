@@ -81,13 +81,11 @@ layout: default
           <div class="clearfix" style=" width: 55%; padding-top:2vh;">
             {{ content }}
             {%- if page.social %}
-          <!-- Social -->
-          <!-- <h2>   </h2> -->
-
-          <br/>
-          <br/>
-         
-          {%- endif %}
+            <!-- Social -->
+            <div class="social-links">
+              {% include social.html %}
+            </div>
+            {%- endif %}
           </div>
           {%- endif %}
           
@@ -97,20 +95,6 @@ layout: default
           {%- endif %}
           {% if page.selected_papers -%}
             <!-- Selected papers -->
-              <div class="social">
-            <div class="contact-icons">
-            {% include social.html %}
-            </div>
-
-            <div class="contact-note">
-              {{ site.contact_note }}
-            </div>
-            
-          </div>
-            <br/>
-
-             <br/>
-
             {%- include selected_papers.html %}
           {%- endif %}
         </article>
