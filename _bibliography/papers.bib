@@ -3,6 +3,20 @@
 
 @string{aps = {American Physical Society,}}
 
+@article{jing2026promera,
+  title={Promera: a unified model for biomolecular structure prediction, filtering, and design},
+  author={Jing, Bowen and Bafna, Mihir and Diaz, Daniel J and Klivans, Adam R and Berger, Bonnie},
+  journal={bioRxiv},
+  year={2026},
+  publisher={Cold Spring Harbor Laboratory},
+  abstract={Generative models have become staple tools for modeling and designing biomolecular structures. However, although these tools have improved in structural prediction accuracy, their ability to filter designed binders—an essential use case—remains insufficient; whereas design methods have focused more on unconstrained binder generation rather than capabilities enabled by controllable design. We introduce Promera, a unified generative model that combines all-atom structure prediction with improved filtering and controllable design. We find that Promera’s confidence metrics are more accurate for filtering binders from non-binders for both miniproteins and nanobodies, while its co-folding performance surpasses popular open-source models (OpenFold3-p2, Boltz-2) on therapeutically relevant categories. As a design model, Promera generates binders by predicting masked protein sequences with optional epitope, paratope, and template constraints. Remarkably, our nanobody designs match the in silico success rates from backprop-based techniques (mBER) when evaluated under co-folding confidence filters. We further provide two in silico demonstrations of the versatile capabilities of our design method: epitope targeting of the Andes hantavirus glycoprotein with VHHs and active state stabilization of the β2 adrenergic GPCR. We conclude by proposing a scaling law for co-folding models, suggesting a path for further performance improvement.},
+  bibtex_show={false},
+  selected={true},
+  short={biorxiv},
+  shorttitle={biorxiv},
+  biorxiv={10.64898/2026.06.07.729267v1},
+}
+
 @article{jing2026switchcraft,
   title={SwitchCraft: A Programmatic Framework for Designing State-Switching Proteins},
   author={Jing, Bowen and Bafna, Mihir and Parsan, Anisha and Ni, Heyuan Michael and Kwabi-Addo, David and Bryson, Bryan and Klivans, Adam and Berger, Bonnie},
@@ -57,7 +71,7 @@
   year={2025},
   publisher={Cold Spring Harbor Laboratory},
   abstract={Generating proteins with the full diversity and complexity of functions found in nature is a grand challenge in protein design. Here, we present ProDiT, a multimodal diffusion model that unifies sequence and structure modeling paradigms to enable the design of functional proteins at scale. Trained on sequences, 3D structures, and annotations for 214M proteins across the evolutionary landscape, ProDiT generates diverse, novel proteins that preserve known active and binding site motifs and can be successfully conditioned on a wide range of molecular functions, spanning 465 Gene Ontology terms. We introduce a diffusion sampling protocol to design proteins with multiple functional states, and demonstrate this protocol by scaffolding active sites from enzymes such as carbonic anhydrase and lysozyme to be allosterically deactivated by a calcium effector. Our results showcase ProDiT9s unique capacity to satisfy design specifications inaccessible to existing generative models, thereby expanding the protein design toolkit.},
-  bibtex_show={true},
+  bibtex_show={false},
   selected={true},
   short={biorxiv},
   shorttitle={biorxiv},
