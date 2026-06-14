@@ -297,7 +297,9 @@ blockquote {
 
 // Footer
 footer.fixed-bottom {
-  background-color: var(--global-theme-color);
+  background-color: var(--global-footer-bg-trans);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
   font-size: 0.75rem;
   .container {
     text-align: center;
