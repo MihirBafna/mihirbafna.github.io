@@ -178,13 +178,29 @@
 	border: 10px solid var(	--global-computer-outer-color);
 	border-top-right-radius: 1.5rem;
 	border-top-left-radius: 1.5rem;
+	overflow: hidden;   /* keep the DNA clipped to the screen when rotated */
 }
 
 
 .computer-monitor:hover{
-	-webkit-box-shadow: 0 0 40px var(--global-theme-color);
-	box-shadow: 0 0 40px var(--global-theme-color);
-	cursor: pointer;
+	cursor: none;   /* hide the real pointer; the on-screen cursor stands in for it */
+}
+
+/* A little pointer that lives on the computer screen and follows the mouse on hover */
+.screen-cursor {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 13px;
+	height: 13px;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.15s ease;
+	z-index: 6;
+	color: var(--global-theme-color);
+}
+.computer-monitor:hover .screen-cursor {
+	opacity: 1;
 }
 
 
