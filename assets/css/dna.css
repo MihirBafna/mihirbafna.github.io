@@ -49,9 +49,6 @@
 	animation-direction: reverse;
 }
 
-/* TEMP: paused for debugging — remove this rule to resume the spin */
-.dot::before, .dot::after, .dot i { animation-play-state: paused; }
-
 .dot2::before, .dot2::after, .dot2 i
 { animation-delay: 0.1s }
 
