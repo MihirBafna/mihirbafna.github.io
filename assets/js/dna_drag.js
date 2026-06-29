@@ -46,7 +46,7 @@
     }
 
     var ROTATE_FRAC = 0.55;
-    var MIN_TIME = 2950, SENS = 18;
+    var MIN_TIME = 0, SENS = 18;   // negative delays => helix is valid from t=0
     // spring-damper for the momentum / settle-back
     var STIFF = 0.012, DAMP = 0.9, MAXVEL = 30;
     var mode = null, rafId = null;

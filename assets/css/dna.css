@@ -26,7 +26,7 @@
 	width: 4px;
 	height: 4px;
 	background: var(--global-theme-color);
-	border-radius: 4px;
+	border-radius: 50%;
 	box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
 	animation: helix 3.0s ease-in-out infinite;
 	animation-direction: reverse;
@@ -48,6 +48,9 @@
 	animation: helix-bar 3.0s ease-in-out infinite;
 	animation-direction: reverse;
 }
+
+/* TEMP: paused for debugging — remove this rule to resume the spin */
+.dot::before, .dot::after, .dot i { animation-play-state: paused; }
 
 .dot2::before, .dot2::after, .dot2 i
 { animation-delay: 0.1s }
@@ -74,67 +77,67 @@
 { animation-delay: 0.8s }
 
 .dot10::before, .dot10::after, .dot10 i
-{ animation-delay: 0.9s }
+{ animation-delay: -2.1s }
 
 .dot11::before, .dot11::after, .dot11 i
-{ animation-delay: 1.0s }
+{ animation-delay: -2.0s }
 
 .dot12::before, .dot12::after, .dot12 i
-{ animation-delay: 1.1s }
+{ animation-delay: -1.9s }
 
 .dot13::before, .dot13::after, .dot13 i
-{ animation-delay: 1.2s }
+{ animation-delay: -1.8s }
 
 .dot14::before, .dot14::after, .dot14 i
-{ animation-delay: 1.3s }
+{ animation-delay: -1.7s }
 
 .dot15::before, .dot15::after, .dot15 i
-{ animation-delay: 1.4s }
+{ animation-delay: -1.6s }
 
 .dot16::before, .dot16::after, .dot16 i
-{ animation-delay: 1.5s }
+{ animation-delay: -1.5s }
 
 .dot17::before, .dot17::after, .dot17 i
-{ animation-delay: 1.6s }
+{ animation-delay: -1.4s }
 
 .dot18::before, .dot18::after, .dot18 i
-{ animation-delay: 1.7s }
+{ animation-delay: -1.3s }
 
 .dot19::before, .dot19::after, .dot19 i
-{ animation-delay: 1.8s }
+{ animation-delay: -1.2s }
 
 .dot20::before, .dot20::after, .dot20 i
-{ animation-delay: 1.9s }
+{ animation-delay: -1.1s }
 
 .dot22::before, .dot22::after, .dot22 i
-{ animation-delay: 2.0s }
+{ animation-delay: -1.0s }
 
 .dot23::before, .dot23::after, .dot23 i
-{ animation-delay: 2.1s }
+{ animation-delay: -0.9s }
 
 .dot24::before, .dot24::after, .dot24 i
-{ animation-delay: 2.2s }
+{ animation-delay: -0.8s }
 
 .dot25::before, .dot25::after, .dot25 i
-{ animation-delay: 2.3s }
+{ animation-delay: -0.7s }
 
 .dot26::before, .dot26::after, .dot26 i
-{ animation-delay: 2.4s }
+{ animation-delay: -0.6s }
 
 .dot27::before, .dot27::after, .dot27 i
-{ animation-delay: 2.5s }
+{ animation-delay: -0.5s }
 
 .dot28::before, .dot28::after, .dot28 i
-{ animation-delay: 2.6s }
+{ animation-delay: -0.4s }
 
 .dot29::before, .dot29::after, .dot29 i
-{ animation-delay: 2.7s }
+{ animation-delay: -0.3s }
 
 .dot30::before, .dot30::after, .dot30 i
-{ animation-delay: 2.8s }
+{ animation-delay: -0.2s }
 
 .dot21::before, .dot21::after, .dot21 i
-{ animation-delay: 2.9s }
+{ animation-delay: -0.1s }
 
 @keyframes helix {
 	  0% { width: 5px; height: 5px; bottom: -5px; z-index: 10 }
