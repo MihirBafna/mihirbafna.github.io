@@ -1,13 +1,10 @@
-// Drag the DNA: the drag is decomposed relative to the strand's 45-degree axis.
-//  - The bottom-left <-> top-right component scrubs the helical-spin animation
-//    (toward top-right = forward, toward bottom-left = reverse). This persists;
-//    the ambient spin resumes from there on release.
-//  - The perpendicular component rotates the whole strand in-plane (clamped to
-//    +-90 deg), which springs back to rest when you let go.
-// Plus a themed on-screen cursor that mirrors the mouse on hover.
+// DNA interactions:
+//  - Grab near the ENDS/corners of the helix -> rotate it (about its center of
+//    mass). On release it carries momentum, then a spring eases it back to rest.
+//  - Grab near the MIDDLE -> scrub the helical-spin animation like a slider
+//    (drag right = forward, left = backward); the ambient spin resumes on release.
+// Also shows a themed on-screen cursor that mirrors the mouse on hover.
 (function () {
-  var INV = 1 / Math.SQRT2;
-
   function init() {
     var handle = document.querySelector('.computer-monitor');
     var loader = document.querySelector('.loader');
@@ -17,7 +14,7 @@
     var screenCursor = handle.querySelector('.screen-cursor');
 
     var BASE = 45;
-    loader.style.transition = 'none';
+    loader.style.transition = 'none';   // RAF drives the rotation smoothness
     function anims() { try { return loader.getAnimations({ subtree: true }); } catch (e) { return []; } }
 
     // ----- Calibrate the rotation pivot to the helix's center of mass -----
@@ -35,70 +32,90 @@
     function build() { return 'translate(' + tx + 'px,' + ty + 'px) scale(0.6) rotate(' + (BASE + rotation) + 'deg)'; }
     loader.style.transform = build();
 
+    function helix() {
+      var a = 1e9, b = 1e9, c = -1e9, d = -1e9;
+      dots.forEach(function (x) { var r = x.getBoundingClientRect(); a = Math.min(a, r.left); b = Math.min(b, r.top); c = Math.max(c, r.right); d = Math.max(d, r.bottom); });
+      return { x: (a + c) / 2, y: (b + d) / 2, half: Math.hypot((c - a) / 2, (d - b) / 2) };
+    }
     function positionCursor(x, y) {
       if (!screenCursor) return;
       var r = handle.getBoundingClientRect(), bw = 10;
       var px = Math.max(0, Math.min(r.width - bw * 2, x - r.left - bw));
       var py = Math.max(0, Math.min(r.height - bw * 2, y - r.top - bw));
-      screenCursor.style.transform = 'translate(' + (px - 6.5) + 'px,' + (py - 6.5) + 'px)';
+      screenCursor.style.transform = 'translate(' + (px - 6.5) + 'px,' + (py - 6.5) + 'px)';   // center the crosshair on the point
     }
 
-    var SCRUB_SENS = 16;   // ms of spin per px along the bottom-left<->top-right axis
-    var ROT_SENS = 0.7;    // deg of rotation per px along the perpendicular axis
-    var ROT_MAX = 90;
+    var ROTATE_FRAC = 0.55;
+    var MIN_TIME = 0, SENS = 18;   // negative delays => helix is valid from t=0
+    // spring-damper for the momentum / settle-back
+    var STIFF = 0.012, DAMP = 0.9, MAXVEL = 30;
+    var mode = null, rafId = null;
+    var pivotX = 0, pivotY = 0, lastAngle = 0, vel = 0;   // rotate state
+    var startX = 0, startTime = 0;                          // scrub state
 
-    var dragging = false, startX = 0, startY = 0, startTime = 0, rotBase = 0;
-    var pivotX = 0, pivotY = 0, startAngle = 0;
+    function angleAt(x, y) { return Math.atan2(y - pivotY, x - pivotX) * 180 / Math.PI; }
 
-    function centroidScreen() {  // rendered center of mass = rotation pivot
-      var a = 1e9, b = 1e9, c = -1e9, d = -1e9;
-      dots.forEach(function (x) { var r = x.getBoundingClientRect(); a = Math.min(a, r.left); b = Math.min(b, r.top); c = Math.max(c, r.right); d = Math.max(d, r.bottom); });
-      return { x: (a + c) / 2, y: (b + d) / 2 };
+    function spring() {
+      vel += -STIFF * rotation;     // pull toward the resting conformation
+      vel *= DAMP;                  // friction
+      rotation += vel;
+      loader.style.transform = build();
+      if (Math.abs(rotation) < 0.12 && Math.abs(vel) < 0.12) {
+        rotation = 0;
+        loader.style.transform = build();
+        rafId = null;
+        return;
+      }
+      rafId = requestAnimationFrame(spring);
     }
 
     function start(x, y) {
-      dragging = true;
-      startX = x; startY = y;
-      var list = anims();
-      startTime = list.length ? (Number(list[0].currentTime) || 0) : 0;
-      list.forEach(function (a) { a.pause(); });
-      try { var m = new DOMMatrixReadOnly(getComputedStyle(loader).transform); rotation = Math.atan2(m.b, m.a) * 180 / Math.PI - BASE; } catch (e) {}
-      rotBase = rotation;
-      var c = centroidScreen();
-      pivotX = c.x; pivotY = c.y;
-      startAngle = Math.atan2(y - pivotY, x - pivotX);
-      loader.style.transition = 'transform 0.7s cubic-bezier(0.25, 1, 0.5, 1)';   // rotation eases toward the cursor (slow follow)
-      loader.style.transform = build();
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      var h = helix();
+      if (Math.hypot(x - h.x, y - h.y) > ROTATE_FRAC * h.half) {
+        mode = 'rotate';
+        pivotX = h.x; pivotY = h.y;
+        lastAngle = angleAt(x, y);
+        vel = 0;
+      } else {
+        var list = anims();
+        if (!list.length) { mode = null; return; }
+        mode = 'scrub';
+        startX = x;
+        startTime = Number(list[0].currentTime) || MIN_TIME;
+        list.forEach(function (a) { a.pause(); });
+      }
     }
     function move(x, y) {
-      if (!dragging) return;
-      var dx = x - startX, dy = y - startY;
-      // scrub: bottom-left -> top-right component of the drag (screen vector (1, -1))
-      var s = (dx - dy) * INV;
-      var t = startTime + s * SCRUB_SENS;
-      if (t < 0) t = 0;
-      anims().forEach(function (a) { try { a.currentTime = t; } catch (e) {} });
-      // rotate: knob — follow the angle swept around the centroid (CCW drag -> CCW)
-      var dA = (Math.atan2(y - pivotY, x - pivotX) - startAngle) * 180 / Math.PI;
-      while (dA > 180) dA -= 360;
-      while (dA < -180) dA += 360;
-      rotation = Math.max(-ROT_MAX, Math.min(ROT_MAX, rotBase + dA));
-      loader.style.transform = build();
+      if (mode === 'rotate') {
+        var a = angleAt(x, y), dd = a - lastAngle;
+        while (dd > 180) dd -= 360;
+        while (dd < -180) dd += 360;
+        rotation += dd;
+        lastAngle = a;
+        vel = 0.4 * vel + 0.6 * dd;                 // track angular velocity for the flick
+        if (vel > MAXVEL) vel = MAXVEL; else if (vel < -MAXVEL) vel = -MAXVEL;
+        loader.style.transform = build();
+      } else if (mode === 'scrub') {
+        var t = startTime + (x - startX) * SENS;
+        if (t < MIN_TIME) t = MIN_TIME;
+        anims().forEach(function (a) { try { a.currentTime = t; } catch (e) {} });
+      }
     }
     function end() {
-      if (!dragging) return;
-      dragging = false;
-      anims().forEach(function (a) { try { a.play(); } catch (e) {} });   // resume spin from scrubbed point
-      loader.style.transition = 'transform 1.6s cubic-bezier(0.22, 1, 0.36, 1)';   // gradual drift back to rest
-      rotation = 0;
-      loader.style.transform = build();
+      if (mode === 'rotate') {
+        if (!rafId) spring();                       // momentum + settle back to rest
+      } else if (mode === 'scrub') {
+        anims().forEach(function (a) { try { a.play(); } catch (e) {} });
+      }
+      mode = null;
     }
 
     handle.addEventListener('mousedown', function (e) { e.preventDefault(); start(e.clientX, e.clientY); });
     window.addEventListener('mousemove', function (e) { positionCursor(e.clientX, e.clientY); move(e.clientX, e.clientY); });
     window.addEventListener('mouseup', end);
     handle.addEventListener('touchstart', function (e) { if (e.touches[0]) start(e.touches[0].clientX, e.touches[0].clientY); }, { passive: true });
-    window.addEventListener('touchmove', function (e) { if (dragging && e.touches[0]) { positionCursor(e.touches[0].clientX, e.touches[0].clientY); move(e.touches[0].clientX, e.touches[0].clientY); } }, { passive: true });
+    window.addEventListener('touchmove', function (e) { if (mode && e.touches[0]) { positionCursor(e.touches[0].clientX, e.touches[0].clientY); move(e.touches[0].clientX, e.touches[0].clientY); } }, { passive: true });
     window.addEventListener('touchend', end);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
