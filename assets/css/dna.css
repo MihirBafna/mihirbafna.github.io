@@ -240,6 +240,34 @@
 
 }
 
+/* a little mouse on the desk to the right of the computer. The perspective is
+   drawn into the shape (a first-person seated view): narrower at the front (the
+   far end, toward the monitor) and compressed/short, so it reads as foreshortened
+   without any 3D transform. Flat fill to match the rest of the computer. */
+.computer-mouse {
+	position: absolute;
+	bottom: 18px;
+	right: -56px;
+	width: 48px;
+	height: 34px;
+	background-color: #eeeeee;
+	/* foreshortened mouse silhouette: narrow at the front (top), wider but flat
+	   at the back (bottom), short -> reads as a seated-perspective drawing */
+	clip-path: path('M16,3 C22,1.5 26,1.5 32,3 C40,5 45,13 45,21 C45,29 37,33 24,33 C11,33 3,29 3,21 C3,13 8,5 16,3 Z');
+	filter: drop-shadow(0 5px 6px rgba(0,0,0,0.16));
+}
+.computer-mouse::before {       /* scroll wheel near the front */
+	content: "";
+	position: absolute;
+	top: 8px;
+	left: 50%;
+	width: 3px;
+	height: 8px;
+	margin-left: -1.5px;
+	border-radius: 2px;
+	background-color: var(--global-computer-outer-color);
+}
+
 .dna-container{
 	position: absolute;
 	top: 0;

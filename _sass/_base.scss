@@ -309,6 +309,18 @@ blockquote {
   margin-top: 9rem;
 }
 
+// Top offset for the homepage content. On bigger screens it otherwise sits too
+// high with the whole lower half empty, so let the space scale with viewport
+// height and drop it toward the vertical middle.
+.about-top {
+  margin-top: 5rem;
+}
+@media (min-width: 992px) {
+  .about-top {
+    margin-top: 20vh;
+  }
+}
+
 // Stack the homepage into a single column on phones / small tablets
 @media (max-width: 767px) {
   // Reorder so the bio + social icons come before the dna animation
