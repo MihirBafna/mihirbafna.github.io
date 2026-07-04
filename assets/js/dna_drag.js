@@ -114,6 +114,8 @@
     handle.addEventListener('mousedown', function (e) { e.preventDefault(); start(e.clientX, e.clientY); });
     window.addEventListener('mousemove', function (e) { positionCursor(e.clientX, e.clientY); move(e.clientX, e.clientY); });
     window.addEventListener('mouseup', end);
+    // while the cursor is over the computer, don't let the wheel scroll the page
+    handle.addEventListener('wheel', function (e) { e.preventDefault(); }, { passive: false });
     handle.addEventListener('touchstart', function (e) { if (e.touches[0]) start(e.touches[0].clientX, e.touches[0].clientY); }, { passive: true });
     window.addEventListener('touchmove', function (e) { if (mode && e.touches[0]) { positionCursor(e.touches[0].clientX, e.touches[0].clientY); move(e.touches[0].clientX, e.touches[0].clientY); } }, { passive: true });
     window.addEventListener('touchend', end);
